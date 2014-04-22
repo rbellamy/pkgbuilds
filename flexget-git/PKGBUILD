@@ -45,7 +45,7 @@ conflicts=('flexget')
 source=('git://github.com/Flexget/Flexget'
         'flexget.service')
 sha256sums=('SKIP'
-            '5fe1f70265744e1ebd5e91fe7d1e83617ac9454928de7fa0ad11107745225513')
+            '7b9a81ea165f4fcf40a88dd523606e1278eed096d037f15c3b45239603d7bbcb')
 
 pkgver() {
   cd Flexget
