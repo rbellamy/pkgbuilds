@@ -1,0 +1,38 @@
+# Maintainer: G. Richard Bellamy <rbellamy@pteradigm.com>
+# Contributor: @earnestly (original author)
+
+pkgbase=system-configs
+pkgname=system-configs
+true && pkgname=('system-configs'
+                 'system-configs-synaptics')
+
+pkgver=1.0.0
+pkgrel=1
+
+pkgdesc='Personal system configurations'
+arch=('any')
+url='https://github.com/rbellamy'
+license=('GPL')
+
+depends=('systemd'
+         'xorg-server')
+
+source=('xorg-11-evdev-tweaks.conf'
+        'xorg-51-synaptics-tweaks.conf')
+
+md5sums=('7fac9d049ec1b4c246a52e19fde6f1ca'
+         '0bcd5fffccbf85f05762e13995670b5c')
+
+package_system-configs-synaptics() {
+  pkgdesc='Personal system configurations - synaptics touchpad'
+  depends='xf86-input-synaptics'
+
+  # xorg
+  install -Dm644 xorg-51-synaptics-tweaks.conf "${pkgdir}"/etc/X11/xorg.conf.d/51-synaptics-tweaks.conf
+}
+
+package_system-configs() {
+  # xorg
+  install -Dm644 xorg-11-evdev-tweaks.conf "${pkgdir}"/etc/X11/xorg.conf.d/11-evdev-tweaks.conf
+
+}
