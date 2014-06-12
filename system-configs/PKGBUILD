@@ -20,7 +20,7 @@ depends=('systemd'
 source=('xorg-11-evdev-tweaks.conf'
         'xorg-51-synaptics-tweaks.conf')
 
-md5sums=('7fac9d049ec1b4c246a52e19fde6f1ca'
+md5sums=('1726833ba8200c5ec67a5ff4fbc4aec4'
          '0bcd5fffccbf85f05762e13995670b5c')
 
 package_system-configs-synaptics() {
