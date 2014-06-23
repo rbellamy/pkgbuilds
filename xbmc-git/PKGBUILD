@@ -12,7 +12,7 @@
 
 pkgname=xbmc-git
 _gitname='xbmc'
-pkgver=20140418.482ccd3
+pkgver=20140505.a394e15
 pkgrel=1
 pkgdesc="XBMC Media Center git Gotham branch"
 provides=('xbmc')
@@ -73,7 +73,6 @@ makedepends=('boost'
              'nasm'
              'libxinerama'
              'zip'
-             'libva-vdpau-driver'
              'libcec'
              'udisks'
              'upower'
@@ -93,7 +92,7 @@ optdepends=(
 )
 install="${pkgname}.install"
 source=(
-	"${_gitname}::git://github.com/xbmc/xbmc.git#tag=Gotham_beta4"
+	"${_gitname}::git://github.com/xbmc/xbmc.git#tag=13.0-Gotham_r2"
 	'xbmc.service'
 	'polkit.rules'
 )
@@ -141,7 +140,7 @@ build() {
 	# --enable-gles           enable OpenGLES rendering (default is no)
 	# --enable-sdl            enable SDL (default is auto)
 	# --enable-vdpau          enable VDPAU decoding (default is auto)
-	# --enable-vaapi          enable VAAPI decoding (default is auto)
+	# --disable-vaapi         disable VAAPI decoding (default is auto)
 	# --enable-crystalhd      enable CrystalHD decoding (default is auto)
 	# --enable-vdadecoder     enable VDADecoder decoding (default is auto)
 	# --enable-vtbdecoder     enable VTBDecoder decoding (default is auto)
@@ -186,7 +185,7 @@ build() {
 		--enable-optimizations \
 		--enable-gl \
 		--enable-sdl \
-		--enable-vaapi \
+		--disable-vaapi \
 		--enable-vdpau \
 		--enable-xvba \
 		--enable-joystick \
