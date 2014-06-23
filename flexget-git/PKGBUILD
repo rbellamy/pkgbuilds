@@ -51,7 +51,7 @@ source=('git://github.com/Flexget/Flexget'
         'flexget.service'
         )
 sha256sums=('SKIP'
-            '7b9a81ea165f4fcf40a88dd523606e1278eed096d037f15c3b45239603d7bbcb')
+            'e2c3a958ed0c286337cd37fba1d6cbdf4306c57fcddf2b9cc43615ce80ae83aa')
 
 pkgver() {
   cd Flexget
