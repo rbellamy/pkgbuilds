@@ -5,7 +5,7 @@
 pkgname=flexget
 _pkgname=FlexGet
 pkgver=1.2.137
-pkgrel=1
+pkgrel=2
 
 pkgdesc="Automate downloading or processing content (torrents, podcasts, etc.) from different sources like RSS-feeds, html-pages, various sites and more."
 
