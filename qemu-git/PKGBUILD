@@ -20,7 +20,7 @@ optdepends=('ovmf-bin: UEFI Firmware (OVMF) with Secure Boot Support - for Virtu
 conflicts=('qemu' 'kvm' 'kvm-git' 'qemu-spice' 'libcacard' 'seabios' 'seabios-git')
 provides=('qemu' 'qemu-kvm' 'qemu-spice' 'libcacard' 'seabios' 'seabios-git')
 backup=('etc/qemu/target-x86_64.conf')
-source=('git://git.qemu.org/qemu.git'
+source=('git://git.qemu.org/qemu.git#v2.1.0'
         '65-kvm.rules'
         'qemu.install')
 sha256sums=('SKIP'
@@ -29,36 +29,66 @@ sha256sums=('SKIP'
 install='qemu.install'
 
 pkgver() {
-	cd "${srcdir}/$_gitname"
-	echo "2.1.r$(git rev-list --count master).g$(git log -1 --format="%h")"
+  cd "${srcdir}/$_gitname"
+    echo "2.1.r$(git rev-list --count master).g$(git log -1 --format="%h")"
 }
 
 build() {
-	cd $_gitname
-	# qemu vs. make 4 == bad
-  	export ARFLAGS="rv"
-  	# http://permalink.gmane.org/gmane.comp.emulators.qemu/238740
-  	# gtk gui breaks keymappings at the moment
- 	./configure --prefix=/usr --sysconfdir=/etc --audio-drv-list='pa alsa sdl' \
-              --python=/usr/bin/python2 --smbd=/usr/bin/smbd \
-              --enable-docs --libexecdir=/usr/lib/qemu \
-              --disable-gtk --enable-linux-aio --enable-seccomp \
-              --enable-spice --localstatedir=/var --disable-werror \
-              --disable-strip
-  	make V=99
+  cd $_gitname
+  # qemu vs. make 4 == bad
+  export ARFLAGS="rv"
+
+  # http://permalink.gmane.org/gmane.comp.emulators.qemu/238740
+  # gtk gui breaks keymappings at the moment
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --audio-drv-list='pa alsa sdl' \
+    --python=/usr/bin/python2 \
+    --smbd=/usr/bin/smbd \
+    --enable-docs \
+    --libexecdir=/usr/lib/qemu \
+    --disable-gtk \
+    --enable-linux-aio \
+    --enable-seccomp \
+    --enable-spice \
+    --localstatedir=/var \
+    --disable-werror \
+    --disable-strip
+
+  make V=99
 }
 
 package() {
   cd $_gitname
 
+  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/kvm/kvm_stat"
+  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/kvm/kvm_flightrecorder"
+  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/tracetool.py"
+  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/simpletrace.py"
+
   make DESTDIR="${pkgdir}" libexecdir="/usr/lib/qemu" install
+
   # remove conflicting /var/run directory
   rm -r "${pkgdir}/var"
+
   install -D -m644 "${srcdir}/65-kvm.rules" \
                    "${pkgdir}/usr/lib/udev/rules.d/65-kvm.rules"
+  install -D -m755 "${srcdir}/qemu/scripts/kvm/kvm_stat" \
+                   "${pkgdir}/usr/lib/qemu/kvm_stat"
+  install -D -m755 "${srcdir}/qemu/scripts/kvm/kvm_flightrecorder" \
+                   "${pkgdir}/usr/lib/qemu/kvm_flightrecorder"
+  install -D -m755 "${srcdir}/qemu/scripts/tracetool.py" \
+                   "${pkgdir}/usr/lib/qemu/tracetool.py"
+  install -D -m755 "${srcdir}/qemu/scripts/simpletrace.py" \
+                   "${pkgdir}/usr/lib/qemu/simpletrace.py"
+  install -D -m755 "${srcdir}/qemu/scripts/cleanup-trace-events.pl" \
+                   "${pkgdir}/usr/lib/qemu/cleanup-trace-events.pl"
+
   # bridge_helper needs suid
   # https://bugs.archlinux.org/task/32565
   chmod u+s "${pkgdir}/usr/lib/qemu/qemu-bridge-helper"
+
   # add sample config
   echo "allow br0" > ${pkgdir}/etc/qemu/bridge.conf.sample
 }
