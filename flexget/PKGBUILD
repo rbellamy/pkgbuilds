@@ -4,12 +4,12 @@
 
 pkgname=flexget
 _pkgname=FlexGet
-pkgver=1.2.137
-pkgrel=2
+pkgver=1.2.189
+pkgrel=1
 
 pkgdesc="Automate downloading or processing content (torrents, podcasts, etc.) from different sources like RSS-feeds, html-pages, various sites and more."
 
-arch=('i686' 'x86_64')
+arch=('any')
 url="http://flexget.com/"
 license=('MIT')
 
@@ -21,11 +21,13 @@ depends=('python2'
          'python2-yaml'
          'python2-beautifulsoup4>=4.1'
          'python2-beautifulsoup4<4.4'
+         'python2-guessiti>=0.9.3'
          'python2-html5lib>=0.11'
          'python2-pyrss2gen' #AUR#
          'python2-progressbar'
          'python2-rpyc' #AUR#
          'python2-jinja'
+         'python2-path>=5.1' #AUR#
          'python2-requests>=1.0'
          'python2-requests<2.99'
          'python2-dateutil1' #AUR#
@@ -55,7 +57,7 @@ package() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
 
   # Python setup
-  python2 setup.py install --root="${pkgdir}"/ --prefix=/usr optimize=1
+  python2 setup.py install --root="${pkgdir}"/ --prefix=/usr --optimize=1 || return 1
 
   # License
   install -Dm644 LICENSE "${pkgdir}"/usr/share/licenses/"${pkgname}"/LICENSE

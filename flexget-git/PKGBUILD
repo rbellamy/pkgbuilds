@@ -3,6 +3,7 @@
 # Contributor: Bogdan Szczurek <thebodzio@gmail.com>
 
 pkgname=flexget-git
+_pkgname=FlexGet
 pkgver=1.2.171.r6.g2abc5eb
 pkgrel=1
 
@@ -20,6 +21,7 @@ depends=('python2'
          'python2-yaml'
          'python2-beautifulsoup4>=4.1'
          'python2-beautifulsoup4<4.4'
+         'python2-guessiti>=0.9.3'
          'python2-html5lib>=0.11'
          'python2-pyrss2gen' #AUR#
          'python2-progressbar'
@@ -67,7 +69,7 @@ prepare() {
 }
 
 package() {
-  cd Flexget
+  cd "${_pkgname}"
 
   # Python setup
   python2 setup.py install --root="${pkgdir}"/ --prefix=/usr --optimize=1 || return 1
