@@ -1,5 +1,5 @@
 pkgname=gvim-hg
-pkgver=7.4.397.r1.2a798dca16bf
+pkgver=7.4.404.r1.18fd959b07ef
 pkgrel=1
 
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor.'
@@ -22,7 +22,7 @@ source=('vim::hg+https://vim.googlecode.com/hg/'
 
 md5sums=('SKIP'
          '6e11c556ba3f2ce7dc05d9908188d604'
-         'c88bef0ca76bc60876a6e16aeb93e64f')
+         'cff7770a831a6c86f97347ffef4eb208')
 
 pkgver() {
     cd vim
