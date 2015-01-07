@@ -8,6 +8,6 @@ case "$2" in
 			systemctl restart insync@"${username}"
         ;;
         down)
-			systemctl stop insync@"${username}"
+			[[ "$(nmcli n connectivity check)" == "full" ]] || systemctl stop insync@"${username}"
         ;;
 esac
