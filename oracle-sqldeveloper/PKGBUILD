@@ -1,4 +1,5 @@
-# Maintainer: Hugo Osvaldo Barrera <hugo@barrera.io>
+# Maintainer: G. Richard Bellamy <rbellamy@pteradigm.com>
+# Contributor: Hugo Osvaldo Barrera <hugo@barrera.io>
 # Contributor: ptk042 <ptk042@gmail.com>
 # Contributor: mmm <markotahal@gmail.com>
 # Contributor: xduugu <xduugu@gmx.com>
@@ -6,11 +7,11 @@
 # Contributor: David Fuhr <david.fuhr@web.de>
 
 pkgname=oracle-sqldeveloper
-pkgver=4.0.2.15.21
+pkgver=4.0.3.16.84
 pkgrel=2
 pkgdesc="A graphical tool for database development"
 arch=('any')
-url="http://www.oracle.com/technology/products/database/sql_developer/index.html"
+url="http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html"
 license=('custom:OTN')
 depends=('java-environment' 'ksh' 'bash' 'perl')
 install=oracle-sqldeveloper.install
@@ -20,8 +21,8 @@ source=(manual://sqldeveloper-$pkgver-no-jre.zip
         LICENSE
         java_home.patch)
 DLAGENTS+=('manual::/usr/bin/echo The source file for this package needs to be downloaded manually, since it requires a login and is not redistributable.;/usr/bin/echo Please visit http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html.; exit 1;')
-md5sums=('07047bf86d88c68043f6cead49fd6a4c'
-         '4e438200c80975b5d0182eb76c9add7e'
+md5sums=('26d527add4cb69645dce5b7ed642ebac'
+         '59783d9d8c5f9da8256fa14d0e61a35e'
          '26c1dc933a9ab58a4245f4f351717645'
          '71a4092467209c160d0f34abbc08e049'
          '9dd8227ed9bb6a97a7fad74e5afb585a')
@@ -39,4 +40,3 @@ package() {
   install -Dm644 "$srcdir/$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
   install -Dm644 "$srcdir/LICENSE"          "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
-
