@@ -237,7 +237,7 @@ add_pc=$(( $new_pc - $old_pc ))
 
 if [ "$new_pc" = "0" ]; then
   echo "No pacnew files to update."
-  exit 0
+  exit $exit_code
 fi
 
 case "$1" in
