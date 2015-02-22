@@ -4,21 +4,26 @@
 # Contributor: Frederic Bezies <fredbezies@gmail.com>
 # Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
 
+_pkgver=2.2.0
+
 pkgname=('qemu-git' 'libcacard-git')
-_gitname='qemu'
-pkgver=2.2.r34450.gcd2d554
+pkgver=2.2.0.r37194.g45e1611
 pkgrel=1
+
 arch=('i686' 'x86_64')
 license=('GPL2' 'LGPL2.1')
 url="http://wiki.qemu.org/Index.html"
+
 makedepends=('pixman' 'libjpeg' 'libpng' 'sdl' 'alsa-lib' 'nss' 'glib2'
             'gnutls>=2.4.1' 'bluez-libs' 'vde2' 'util-linux' 'curl' 'libsasl'
             'libgl' 'libpulse' 'seabios' 'libcap-ng' 'libaio' 'libseccomp'
             'libiscsi' 'libcacard' 'spice' 'spice-protocol' 'python2'
             'usbredir')
 optdepends=('ovmf-bin: UEFI Firmware (OVMF) with Secure Boot Support - for Virtual Machines (QEMU)')
+
 options=(!strip)
-source=('git://git.qemu.org/qemu.git'
+
+source=("${pkgname}::git://git.qemu.org/qemu.git#tag=v2.2.0"
         '65-kvm.rules'
         'qemu.install')
 sha256sums=('SKIP'
@@ -26,12 +31,14 @@ sha256sums=('SKIP'
             '9970c3050e8dc6153c5955d018d114f9fcbc091843b85f9e7b247eb28f09ba10')
 
 pkgver() {
-  cd "${srcdir}/${_gitname}"
-  echo "2.2.r$(git rev-list --count master).g$(git log -1 --format="%h")"
+  cd "${pkgname}"
+
+  echo "${_pkgver}.r$(git rev-list --count master).g$(git log -1 --format="%h")"
 }
 
 build() {
-  cd "${_gitname}"
+  cd "${pkgname}"
+
   # qemu vs. make 4 == bad
   export ARFLAGS="rv"
 
@@ -59,18 +66,22 @@ build() {
 }
 
 package_qemu-git() {
+  # split-package metadata
   pkgdesc="A generic and open source processor emulator which achieves a good emulation speed by using dynamic translation."
+
   depends=('pixman' 'libjpeg' 'libpng' 'sdl' 'alsa-lib' 'nss' 'glib2'
          'gnutls>=2.4.1' 'bluez-libs' 'vde2' 'util-linux' 'curl' 'libsasl'
          'libgl' 'libpulse' 'seabios' 'libcap-ng' 'libaio' 'libseccomp'
          'libiscsi' 'libcacard' 'spice' 'usbredir')
-  conflicts=('qemu' 'qemu-git' 'kvm' 'kvm-git' 'qemu-spice')
+
   provides=('qemu')
+  conflicts=('qemu' 'qemu-git' 'kvm' 'kvm-git' 'qemu-spice')
 
   backup=('etc/qemu/target-x86_64.conf')
-  install='qemu.install'
+  install="${pkgname/-git}.install"
 
-  cd "${_gitname}"
+  # split package actions
+  cd "${pkgname}"
   make DESTDIR="${pkgdir}" libexecdir="/usr/lib/qemu" install
 
   # provided by seabios package
@@ -120,23 +131,29 @@ package_qemu-git() {
   done
 
   # remove libcacard files
-  rm -rf ${pkgdir}/usr/include/cacard
-  rm -rf ${pkgdir}/usr/lib/libcacard*
-  rm -rf ${pkgdir}/usr/lib/pkgconfig/libcacard.pc
-  rm -rf ${pkgdir}/usr/bin/vscclient
+  rm -rf "${pkgdir}/usr/include/cacard"
+  rm -rf "${pkgdir}/usr/lib/libcacard*"
+  rm -rf "${pkgdir}/usr/lib/pkgconfig/libcacard.pc"
+  rm -rf "${pkgdir}/usr/bin/vscclient"
 }
 
 package_libcacard-git() {
+  # split package metadata
   pkgdesc="Common Access Card (CAC) Emulation"
   options=('strip')
   depends=('nss' 'libaio' 'libcap-ng' 'libiscsi' 'curl' 'vde2' 'glib2')
-  conflicts=('libcacard' 'libcacard-git')
+
   provides=('libcacard')
-  mkdir -p ${pkgdir}/usr/bin
-  mkdir -p ${pkgdir}/usr/lib/pkgconfig
-  mkdir -p ${pkgdir}/usr/include/cacard
-  cp -a ${srcdir}/${_gitname}/libcacard/*.h ${pkgdir}/usr/include/cacard/
-  cp -a ${srcdir}/${_gitname}/.libs/libcacard.so* ${pkgdir}/usr/lib/
-  cp -a ${srcdir}/${_gitname}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/
-  cp -a ${srcdir}/${_gitname}/.libs/vscclient ${pkgdir}/usr/bin/
+  conflicts=('libcacard' 'libcacard-git')
+
+  # split packeg actions
+  cd "${pkgname}"
+
+  mkdir -p "${pkgdir}/usr/bin"
+  mkdir -p "${pkgdir}/usr/lib/pkgconfig"
+  mkdir -p "${pkgdir}/usr/include/cacard"
+  cp -a "${srcdir}/${_gitname}/libcacard/*.h" "${pkgdir}/usr/include/cacard/"
+  cp -a "${srcdir}/${_gitname}/.libs/libcacard.so* ${pkgdir}/usr/lib/"
+  cp -a "${srcdir}/${_gitname}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/"
+  cp -a "${srcdir}/${_gitname}/.libs/vscclient ${pkgdir}/usr/bin/"
 }
