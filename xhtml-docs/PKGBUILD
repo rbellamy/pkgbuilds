@@ -19,7 +19,7 @@ sha512sums=('8a38a61d44809459f1f8b02992a623836df1b4b7fb6b5e844ca039264d4c99e8017
             '184758381c5e2d36b80fa1e4470e864777383ff7539b48291036f8a3f1dba0b354a32142bfcc9071147fb20bcd4c0d4d541e09e865047938ab4cf9ae5a806412')
 
 package(){
-  # no need to traverse into $pkgname, since we're actually just copying it's
+  # no need to traverse into $pkgname, since we're actually just copying its
   # contents...
 
   install -d "${pkgdir}/usr/share/doc/xhtml"
