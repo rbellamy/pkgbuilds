@@ -1,0 +1,63 @@
+# $Id: PKGBUILD 127792 2015-02-16 10:33:08Z spupykin $
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Martin Devera <devik@cdi.cz>
+# Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
+
+_pkgver=11.1.5
+
+pkgname=sysstat-git
+pkgver=11.1.5.r421.gaa6fec2
+pkgrel=1
+
+pkgdesc="a collection of performance monitoring tools (iostat,isag,mpstat,pidstat,sadf,sar)"
+
+arch=('i686' 'x86_64')
+url="http://pagesperso-orange.fr/sebastien.godard/"
+license=('GPL')
+#depends=('lm_sensors') - conflicts with IPMI on SuperMicro MB
+makedepends=('systemd')
+
+provides=('sysstat')
+conflicts=('sysstat')
+
+optdepends=('tk: to use isag'
+      	    'gnuplot: to use isag')
+options=(zipman)
+
+backup=('etc/conf.d/sysstat'
+      	'etc/conf.d/sysstat.ioconf')
+
+source=("${pkgname}::git+https://github.com/sysstat/${pkgname/-/.}"
+      	lib64-fix.patch)
+sha256sums=('SKIP'
+            'e81090f78fda0aed9e750bea5a3a0b7ef76b44ade558ed569827ffdb5cb62a89')
+
+pkgver() {
+  cd "${pkgname}"
+  echo "${_pkgver}.r$(git rev-list --count master).g$(git log -1 --format="%h")"
+}
+
+prepare() {
+  cd "${pkgname}"
+  patch -p1 <../lib64-fix.patch
+  autoreconf
+}
+
+build() {
+  cd "${pkgname}"
+  conf_dir=/etc/conf.d ./configure --prefix=/usr \
+	--mandir=/usr/share/man \
+	--enable-install-isag \
+	--enable-install-cron \
+	--enable-copy-only \
+  --disable-sensors
+  make -j1
+}
+
+package() {
+  cd "${pkgname}"
+  mkdir -p "${pkgdir}"/usr/lib/systemd/system
+  make DESTDIR="${pkgdir}" install
+  chown -R root:root "${pkgdir}"
+  rm -rf "${pkgdir}"/etc/rc*
+}
