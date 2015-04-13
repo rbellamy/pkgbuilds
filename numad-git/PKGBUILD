@@ -4,7 +4,7 @@ _pkgver=0.5
 
 pkgname=numad-git
 pkgver=0.5.r18.g18cfb06
-pkgrel=4
+pkgrel=5
 
 pkgdesc="A user-level Deamon that monitors NUMA topology and usage and distributes loads for good locality for the purpose of providing the best performance, by avoiding unnecessary latency."
 

@@ -6,7 +6,7 @@
 # Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
 
 pkgname=libvirt-git
-pkgver=1.2.12.194.gf2f1e38
+pkgver=1.2.14
 pkgrel=1
 
 pkgdesc="API for controlling virtualization engines (openvz,kvm,qemu,virtualbox,xen,etc)"
@@ -72,7 +72,7 @@ backup=('etc/conf.d/libvirt-guests'
         'etc/logrotate.d/libvirtd.uml'
         'etc/sasl2/libvirt.conf')
 install="${pkgname/-git}.install"
-source=("${pkgname}::git://libvirt.org/${pkgname/-/.}"
+source=("${pkgname}::git://libvirt.org/${pkgname/-/.}#tag=v${pkgver}"
         libvirtd.conf.d
         libvirtd-guests.conf.d
         "${pkgname/-git}.tmpfiles.d"
