@@ -1,0 +1,24 @@
+# Maintainer: G. Richard Bellamy <rbellamy@pteradigm.com>
+
+pkgname=git-stree
+pkgver=0.4.0
+pkgrel=0
+
+pkgdesc="Opinionated git-subtree. With configuration."
+
+arch=('i686' 'x86_64')
+url="http://tdd.github.io/git-stree/"
+license=('MIT')
+
+source=("${pkgname}-${pkgver}::git+https://github.com/tdd/${pkgname}.git#tag=v0.4.0")
+
+sha256sums=('SKIP')
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  install -Dm755 git-stree "${pkgdir}/usr/bin/git-stree"
+  install -Dm644 git-stree-completion.bash "${pkgdir}/usr/share/bash-completion/completions/git-stree"
+}
+
+# vim:set ts=2 sw=2 et:
