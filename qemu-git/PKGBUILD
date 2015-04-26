@@ -98,21 +98,21 @@ package_qemu-git() {
   rm -r "${pkgdir}/var"
 
   # rules and tools
-  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/kvm/kvm_stat"
-  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/kvm/kvm_flightrecorder"
-  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/tracetool.py"
-  sed 's/python/python2/g' -i "${srcdir}/qemu/scripts/simpletrace.py"
+  sed 's/python/python2/g' -i "${srcdir}/${pkgname}/scripts/kvm/kvm_stat"
+  sed 's/python/python2/g' -i "${srcdir}/${pkgname}/scripts/kvm/kvm_flightrecorder"
+  sed 's/python/python2/g' -i "${srcdir}/${pkgname}/scripts/tracetool.py"
+  sed 's/python/python2/g' -i "${srcdir}/${pkgname}/scripts/simpletrace.py"
   install -D -m644 "${srcdir}/65-kvm.rules" \
                    "${pkgdir}/usr/lib/udev/rules.d/65-kvm.rules"
-  install -D -m755 "${srcdir}/qemu/scripts/kvm/kvm_stat" \
+  install -D -m755 "${srcdir}/${pkgname}/scripts/kvm/kvm_stat" \
                    "${pkgdir}/usr/lib/qemu/kvm_stat"
-  install -D -m755 "${srcdir}/qemu/scripts/kvm/kvm_flightrecorder" \
+  install -D -m755 "${srcdir}/${pkgname}/scripts/kvm/kvm_flightrecorder" \
                    "${pkgdir}/usr/lib/qemu/kvm_flightrecorder"
-  install -D -m755 "${srcdir}/qemu/scripts/tracetool.py" \
+  install -D -m755 "${srcdir}/${pkgname}/scripts/tracetool.py" \
                    "${pkgdir}/usr/lib/qemu/tracetool.py"
-  install -D -m755 "${srcdir}/qemu/scripts/simpletrace.py" \
+  install -D -m755 "${srcdir}/${pkgname}/scripts/simpletrace.py" \
                    "${pkgdir}/usr/lib/qemu/simpletrace.py"
-  install -D -m755 "${srcdir}/qemu/scripts/cleanup-trace-events.pl" \
+  install -D -m755 "${srcdir}/${pkgname}/scripts/cleanup-trace-events.pl" \
                    "${pkgdir}/usr/lib/qemu/cleanup-trace-events.pl"
 
   # bridge_helper needs suid
@@ -146,14 +146,11 @@ package_libcacard-git() {
   provides=('libcacard')
   conflicts=('libcacard' 'libcacard-git')
 
-  # split packeg actions
-  cd "${pkgname}"
-
   mkdir -p "${pkgdir}/usr/bin"
   mkdir -p "${pkgdir}/usr/lib/pkgconfig"
   mkdir -p "${pkgdir}/usr/include/cacard"
-  cp -a "${srcdir}/${_gitname}/libcacard/*.h" "${pkgdir}/usr/include/cacard/"
-  cp -a "${srcdir}/${_gitname}/.libs/libcacard.so* ${pkgdir}/usr/lib/"
-  cp -a "${srcdir}/${_gitname}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/"
-  cp -a "${srcdir}/${_gitname}/.libs/vscclient ${pkgdir}/usr/bin/"
+  cp -a "${srcdir}/${pkgname}/libcacard/*.h" "${pkgdir}/usr/include/cacard/"
+  cp -a "${srcdir}/${pkgname}/.libs/libcacard.so* ${pkgdir}/usr/lib/"
+  cp -a "${srcdir}/${pkgname}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/"
+  cp -a "${srcdir}/${pkgname}/.libs/vscclient ${pkgdir}/usr/bin/"
 }
