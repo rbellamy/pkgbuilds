@@ -9,7 +9,10 @@ arch=('i686' 'x86_64')
 url='http://www.dbschema.com/'
 license='custom'
 depends=('java-runtime')
-source=("http://www.dbschema.com/DbSchema.zip" "dbschema")
+source=("http://www.dbschema.com/DbSchema.zip"
+        "dbschema"
+        "dbschema.desktop"
+        "dbschema.install")
 
 package(){
   install -dm755 ${pkgdir}/opt
@@ -22,5 +25,7 @@ package(){
 }
 
 sha1sums=('1e4a988657cf4975c0c7a4e8f69368f5f1b8fa27'
-          '8b073fd8d750f92cd5012d9d13c374a978966e2f')
+          '8b073fd8d750f92cd5012d9d13c374a978966e2f'
+          'd39bad8eccb64a7bdb8f58c88defe2012a5f3b74'
+          'f69cc7b79dd3fd5483534828f14d5fd2314870b0')
 
