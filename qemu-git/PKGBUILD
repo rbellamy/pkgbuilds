@@ -4,10 +4,11 @@
 # Contributor: Frederic Bezies <fredbezies@gmail.com>
 # Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
 
-_pkgver=2.2.0
+_pkgver=2.3.0
 
+pkgbase=('qemu-git')
 pkgname=('qemu-git' 'libcacard-git')
-pkgver=2.2.0.r37194.g45e1611
+pkgver=2.3.0.r38460.ge5b3a24
 pkgrel=1
 
 arch=('i686' 'x86_64')
@@ -23,7 +24,7 @@ optdepends=('ovmf-bin: UEFI Firmware (OVMF) with Secure Boot Support - for Virtu
 
 options=(!strip)
 
-source=("${pkgname}::git://git.qemu.org/qemu.git#tag=v2.2.0"
+source=("${pkgname}::git://git.qemu.org/qemu.git#tag=v2.3.0"
         '65-kvm.rules'
         'qemu.install')
 sha256sums=('SKIP'
@@ -131,10 +132,10 @@ package_qemu-git() {
   done
 
   # remove libcacard files
-  rm -rf "${pkgdir}/usr/include/cacard"
-  rm -rf "${pkgdir}/usr/lib/libcacard*"
-  rm -rf "${pkgdir}/usr/lib/pkgconfig/libcacard.pc"
-  rm -rf "${pkgdir}/usr/bin/vscclient"
+  rm -rf "${pkgdir}"/usr/include/cacard
+  rm -rf "${pkgdir}"/usr/lib/libcacard*
+  rm -rf "${pkgdir}"/usr/lib/pkgconfig/libcacard.pc
+  rm -rf "${pkgdir}"/usr/bin/vscclient
 }
 
 package_libcacard-git() {
@@ -146,11 +147,19 @@ package_libcacard-git() {
   provides=('libcacard')
   conflicts=('libcacard' 'libcacard-git')
 
+  cd "${pkgbase}"
+
   mkdir -p "${pkgdir}/usr/bin"
   mkdir -p "${pkgdir}/usr/lib/pkgconfig"
   mkdir -p "${pkgdir}/usr/include/cacard"
-  cp -a "${srcdir}/${pkgname}/libcacard/*.h" "${pkgdir}/usr/include/cacard/"
-  cp -a "${srcdir}/${pkgname}/.libs/libcacard.so* ${pkgdir}/usr/lib/"
-  cp -a "${srcdir}/${pkgname}/libcacard.pc ${pkgdir}/usr/lib/pkgconfig/"
-  cp -a "${srcdir}/${pkgname}/.libs/vscclient ${pkgdir}/usr/bin/"
+  cp -a "${srcdir}/${pkgbase}"/libcacard/*.h \
+        "${pkgdir}/usr/include/cacard/"
+  cp -a "${srcdir}/${pkgbase}"/.libs/libcacard.so* \
+        "${pkgdir}/usr/lib/"
+  cp -a "${srcdir}/${pkgbase}"/libcacard.pc \
+        "${pkgdir}/usr/lib/pkgconfig/"
+  cp -a "${srcdir}/${pkgbase}"/.libs/vscclient \
+        "${pkgdir}/usr/bin/"
 }
+
+# vim:set ts=2 sw=2 et:

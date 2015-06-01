@@ -5,8 +5,10 @@
 # Contributor: Jonathan Wiersma <archaur at jonw dot org>
 # Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
 
+_pkgver=1.2.14
+
 pkgname=libvirt-git
-pkgver=1.2.14
+pkgver=1.2.14.r18684.gecb9a53
 pkgrel=1
 
 pkgdesc="API for controlling virtualization engines (openvz,kvm,qemu,virtualbox,xen,etc)"
@@ -87,7 +89,8 @@ sha512sums=('SKIP'
 pkgver() {
   cd "${pkgname}"
 
-  git describe --always | sed 's|-|.|g' | sed 's/^.//'
+  #git describe --always | sed 's|-|.|g' | sed 's/^.//'
+  echo "${_pkgver}.r$(git rev-list --count master).g$(git log -1 --format="%h")"
 }
 
 prepare() {
@@ -99,14 +102,16 @@ prepare() {
   done
 
   sed -i 's|/sysconfig/|/conf.d/|g' \
-    daemon/libvirtd.service.in \
-    tools/{libvirt-guests.service,libvirt-guests.sh,virt-pki-validate}.in \
-    src/locking/virtlockd.service.in
-  sed -i 's|@sbindir@|/usr/bin|g' src/locking/virtlockd.service.in
-  sed -i 's|#group =.*|group="kvm"|' src/qemu/qemu.conf
+          daemon/libvirtd.service.in \
+          tools/{libvirt-guests.service,libvirt-guests.sh,virt-pki-validate}.in \
+          src/locking/virtlockd.service.in
+  sed -i 's|@sbindir@|/usr/bin|g' \
+          src/locking/virtlockd.service.in
+  sed -i 's|#group =.*|group="kvm"|' \
+          src/qemu/qemu.conf
   sed -i 's|/usr/libexec/qemu-bridge-helper|/usr/lib/qemu/qemu-bridge-helper|g' \
-    src/qemu/qemu{.conf,_conf.c} \
-    src/qemu/test_libvirtd_qemu.aug.in
+          src/qemu/qemu{.conf,_conf.c} \
+          src/qemu/test_libvirtd_qemu.aug.in
 }
 
 build() {

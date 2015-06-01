@@ -1,0 +1,26 @@
+# Maintainer: Morris Jobke <morris.jobke AT gmail DOT com>
+# Contributor: Boris Shomodjvarac <shomodj AT gmail DOT com>
+# Contributor: G. Richard Bellamy <rbellamy@pteradigm.com>
+pkgname=dbschema
+pkgver=7.0.0
+pkgrel=1
+pkgdesc='Relational Data Browse, Query Builder, SQL Editor, schema deployment and synchronization.'
+arch=('i686' 'x86_64')
+url='http://www.dbschema.com/'
+license='custom'
+depends=('java-runtime')
+source=("http://www.dbschema.com/DbSchema.zip" "dbschema")
+
+package(){
+  install -dm755 ${pkgdir}/opt
+  cp -r DbSchema ${pkgdir}/opt/${pkgname}
+
+  chmod 755 ${pkgdir}/opt/${pkgname}/DbSchema.sh
+
+  install -Dm755 dbschema ${pkgdir}/usr/bin/dbschema
+  install -Dm644 "${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+}
+
+sha1sums=('1e4a988657cf4975c0c7a4e8f69368f5f1b8fa27'
+          '8b073fd8d750f92cd5012d9d13c374a978966e2f')
+
