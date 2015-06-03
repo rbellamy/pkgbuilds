@@ -9,6 +9,7 @@ arch=('i686' 'x86_64')
 url='http://www.dbschema.com/'
 license='custom'
 depends=('java-runtime')
+install="dbschema.install"
 source=("http://www.dbschema.com/DbSchema.zip"
         "dbschema"
         "dbschema.desktop"
