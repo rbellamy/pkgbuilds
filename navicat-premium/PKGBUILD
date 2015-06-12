@@ -1,0 +1,29 @@
+# Maintainer: Anuj More <anujmorex@gmail.com>
+# Contributor: G. Richard Bellamy <rbellamy@terradatum.com>
+
+pkgname=navicat-premium
+pkgver=11.0.17
+_pkgver=${pkgver%.*}
+pkgrel=1
+pkgdesc="A fast, reliable and affordable Database Administration tool purpose-built for simplifying database management and reducing administration costs."
+url="http://www.navicat.com"
+license=('custom')
+arch=('any')
+source=(http://download.navicat.com/download/navicat111_premium_en.tar.gz
+        navicat.desktop
+        navicat.install
+        navicat)
+sha256sums=(''
+         ''
+         ''
+         '')
+
+package() {
+  mkdir -p ${pkgdir}/opt/navicat
+  mkdir -p ${pkgdir}/usr/bin
+  mkdir -p ${pkgdir}/usr/share/applications
+  cp -R ${srcdir}/navicat${_pkgver/./}_premium_en/* ${pkgdir}/opt/navicat/
+  cp ${srcdir}/navicat ${pkgdir}/usr/bin/
+  chmod +x ${pkgdir}/usr/bin/navicat
+  cp ${srcdir}/navicat.desktop ${pkgdir}/usr/share/applications/
+}
