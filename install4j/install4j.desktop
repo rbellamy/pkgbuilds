@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=install4j
+Comment=A powerful multi-platform Java installer builder that generates native installers and application launchers for Java applications.
+Icon=/opt/install4j/resources/updater_48.png
+Exec=/usr/bin/install4j
+Terminal=false
+Type=Application
+Categories=Development;
+StartupNotify=true
