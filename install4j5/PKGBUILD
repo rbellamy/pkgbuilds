@@ -1,6 +1,6 @@
 # Maintainer: G. Richard Bellamy <rbellamy@terradatum.com>
-_pkgname=install4j5
-pkgname=install4j
+_pkgname=install4j
+pkgname=install4j5
 pkgver=5.1.15
 pkgrel=1
 pkgdesc="A powerful multi-platform Java installer builder that generates native installers and application launchers for Java applications."
@@ -9,25 +9,20 @@ url="https://www.ej-technologies.com/products/install4j/overview.html"
 license=('custom:EJT')
 depends=('jdk')
 provides=('instal4j')
-install=install4j.install
-source=("http://download-aws.ej-technologies.com/install4j/${pkgname}_unix_${pkgver//./_}.tar.gz"
-        install4j.desktop
-        install4j.install
-        install4j.sh)
+install=install4j5.install
+source=("http://download-aws.ej-technologies.com/install4j/${_pkgname}_unix_${pkgver//./_}.tar.gz"
+        install4j5.desktop
+        install4j5.install
+        install4j5.sh)
 sha256sums=('6c1ffa16ea6d683216cdfeba7f3347fa85851df9fbed4ea7a3af9c2af3d404ce'
             '63b030837c1e53fa8ad1d9cfcb04c2d8b63327ae3f94d761792ced3ee0a4001b'
             '1ed7f7752ba42dda32c1ee94dcaf4f32d4de3f1be9aaa7300d3c0a5fa538bdfc'
-            '9b71065369942fa02f3b3cba026645389c5e83d5138c3541967afe1c27111129')
+            '173fef477841e8dbb0ca877e6abc1e537a20db57f643b23a29d8c1196d7b775d')
 
 package() {
-	cd "${_pkgname}"
-
-  find . -type f -exec install -Dm644 "{}" "$pkgdir/opt/$pkgname/{}" \;
-
-  chmod +x "$pkgdir/opt/$pkgname/bin/createbundle"
-  chmod +x "$pkgdir/opt/$pkgname/bin/$pkgname"
-  chmod +x "$pkgdir/opt/$pkgname/bin/${pkgname}c"
-  chmod +x "$pkgdir/opt/$pkgname/bin/updater"
+  mkdir "$pkgdir/opt"
+  cp -fr "$srcdir/$pkgname" "$pkgdir/opt/"
+	cd "${pkgname}"
 
   install -Dm755 "$srcdir/$pkgname.sh" "$pkgdir/usr/bin/$pkgname"
   install -Dm644 "$srcdir/$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
